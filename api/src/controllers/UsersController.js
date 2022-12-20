@@ -38,8 +38,8 @@ class UsersController {
       throw new AppError("Este email já está em uso.")
     }
 
-    user.name = name
-    user.email = email
+    user.name = name ?? user.name
+    user.email = email ?? user.email
 
     if(new_password && !current_password) {
       throw new AppError("Você precisa informar a senha antiga para definir a nova senha")
