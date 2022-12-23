@@ -46,6 +46,30 @@ class NotesController {
       links
     })
   }
+
+  async delete(request, response) {
+    const { id } = request.params
+
+    await knex("notes").where({ id }).delete()
+
+    response.status(200).json(
+      {
+        "status": "nota deletada"
+      }
+    )
+  }
+
+  async list(request, response) {
+    const { user_id, title } = request.query
+
+    const userNotesList = await knex("notes")
+    .where({ user_id })
+    .whereLike("title", `%${title}%`)
+    .orderBy("title")
+
+    return response.status(200).json(userNotesList)
+
+  }
 }
 
 module.exports = NotesController
